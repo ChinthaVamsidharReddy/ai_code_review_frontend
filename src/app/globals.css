@@ -2,9 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Theme tokens as RGB triplets (not hex) so Tailwind's opacity modifiers
+ * (bg-panel/60, border-accent/30, etc.) work against them — Tailwind can
+ * only generate rgb(var(--x) / <alpha>) for colors whose channels it can
+ * see, which a plain hex CSS variable doesn't allow.
+ *
+ * Light is the default and is NOT a plain white theme — it's a warm,
+ * cream-based palette meant to read as a considered "developer tool"
+ * look rather than a default framework theme.
+ */
+:root {
+  --bg: 250 247 240;           /* warm cream page background */
+  --panel: 255 253 249;        /* card / panel surface */
+  --panel-alt: 240 233 216;    /* recessed surface: code blocks, inputs-on-panel */
+  --border: 224 214 194;
+  --fg: 41 36 30;              /* near-black warm text */
+  --muted: 108 98 84;
+  --muted-2: 150 139 122;
+  --accent: 79 70 229;         /* indigo-600, reads well on cream */
+}
+
+[data-theme='dark'] {
+  --bg: 10 14 22;
+  --panel: 17 24 39;
+  --panel-alt: 15 23 42;
+  --border: 31 41 55;
+  --fg: 243 244 246;
+  --muted: 156 163 175;
+  --muted-2: 107 114 128;
+  --accent: 99 102 241; /* indigo-500, slightly lighter for dark bg contrast */
+}
+
+html {
+  color-scheme: light;
+}
+html[data-theme='dark'] {
+  color-scheme: dark;
+}
+
 body {
-  @apply bg-surface text-gray-100 antialiased;
+  @apply bg-surface text-fg antialiased;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-thumb { @apply bg-border rounded-full; }
+
+/* Prevents a light-mode flash for users whose OS is set to dark, or vice
+ * versa — see the inline script in layout.tsx that sets data-theme/`.dark`
+ * before first paint; this just keeps the transition from being jarring
+ * for anyone whose browser runs the stylesheet a frame ahead of that. */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

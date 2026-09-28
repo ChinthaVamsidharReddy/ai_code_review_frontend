@@ -73,14 +73,33 @@ export default function ProvidersPage() {
     }
   }
 
+  async function onToggleEnabled(p: AiProvider) {
+    try {
+      await api.patch(`/ai-providers/${p.id}`, { enabled: !p.enabled });
+      load();
+    } catch (err) {
+      showToast(err instanceof ApiError ? err.message : 'Failed to update provider', 'error');
+    }
+  }
+
+  async function onSetDefault(p: AiProvider) {
+    try {
+      await api.patch(`/ai-providers/${p.id}`, { isDefault: true });
+      showToast(`"${p.name}" is now the default provider`, 'success');
+      load();
+    } catch (err) {
+      showToast(err instanceof ApiError ? err.message : 'Failed to update provider', 'error');
+    }
+  }
+
   return (
     <ProtectedRoute>
       <TopNav crumb="AI Providers" />
-      <main className="max-w-3xl mx-auto px-6 py-8">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-xl font-semibold text-white">AI Providers</h1>
-            <p className="text-sm text-gray-500 mt-1">
+            <h1 className="text-xl font-semibold text-fg">AI Providers</h1>
+            <p className="text-sm text-muted mt-1">
               Configure any OpenAI-compatible endpoint — cloud or local. Nothing is hardcoded; API keys are encrypted at rest.
             </p>
           </div>
@@ -112,7 +131,7 @@ export default function ProvidersPage() {
               <option value="ollama">Ollama (local)</option>
               <option value="custom">Custom OpenAI-compatible</option>
             </select>
-            <p className="text-xs text-gray-500">{PROVIDER_PRESETS[form.providerType]?.hint}</p>
+            <p className="text-xs text-muted">{PROVIDER_PRESETS[form.providerType]?.hint}</p>
             <input
               required
               placeholder="Base URL"
@@ -134,7 +153,7 @@ export default function ProvidersPage() {
               onChange={(e) => setForm({ ...form, model: e.target.value })}
               className="w-full bg-surface border border-border rounded-lg px-3 py-2 text-sm font-mono"
             />
-            <label className="flex items-center gap-2 text-sm text-gray-400">
+            <label className="flex items-center gap-2 text-sm text-muted">
               <input
                 type="checkbox"
                 checked={form.isDefault}
@@ -143,7 +162,7 @@ export default function ProvidersPage() {
               Use as default provider
             </label>
             <div className="flex gap-2 justify-end">
-              <button type="button" onClick={() => setShowForm(false)} className="text-sm text-gray-400 px-3 py-2">
+              <button type="button" onClick={() => setShowForm(false)} className="text-sm text-muted px-3 py-2">
                 Cancel
               </button>
               <button
@@ -159,7 +178,7 @@ export default function ProvidersPage() {
         )}
 
         {providers === null ? (
-          <div className="flex justify-center py-16 text-gray-500">
+          <div className="flex justify-center py-16 text-muted">
             <Spinner className="w-6 h-6" />
           </div>
         ) : providers.length === 0 ? (
@@ -170,20 +189,38 @@ export default function ProvidersPage() {
         ) : (
           <div className="space-y-3">
             {providers.map((p) => (
-              <div key={p.id} className="bg-panel border border-border rounded-xl p-4 flex items-center justify-between">
-                <div>
-                  <p className="font-medium text-white text-sm flex items-center gap-2">
+              <div key={p.id} className="bg-panel border border-border rounded-xl p-4 flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="font-medium text-fg text-sm flex items-center gap-2 flex-wrap">
                     {p.name}
                     {p.isDefault && <span className="text-xs bg-accent/20 text-accent px-2 py-0.5 rounded-full">default</span>}
-                    {!p.enabled && <span className="text-xs bg-gray-700 text-gray-400 px-2 py-0.5 rounded-full">disabled</span>}
+                    {!p.enabled && <span className="text-xs bg-muted-2/20 text-muted px-2 py-0.5 rounded-full">disabled</span>}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1 font-mono">
+                  <p className="text-xs text-muted mt-1 font-mono truncate">
                     {p.baseUrl} · {p.model} {p.hasApiKey ? '· key set' : '· no key'}
                   </p>
                 </div>
-                <button onClick={() => onDelete(p.id)} className="text-xs text-gray-500 hover:text-critical">
-                  Remove
-                </button>
+                <div className="flex items-center gap-3 shrink-0">
+                  {!p.isDefault && (
+                    <button onClick={() => onSetDefault(p)} className="text-xs text-muted hover:text-accent whitespace-nowrap">
+                      Set default
+                    </button>
+                  )}
+                  <button
+                    onClick={() => onToggleEnabled(p)}
+                    aria-label={p.enabled ? 'Disable provider' : 'Enable provider'}
+                    className={`relative w-9 h-5 rounded-full transition-colors ${p.enabled ? 'bg-accent' : 'bg-muted-2/40'}`}
+                  >
+                    <span
+                      className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${
+                        p.enabled ? 'translate-x-[18px]' : 'translate-x-0.5'
+                      }`}
+                    />
+                  </button>
+                  <button onClick={() => onDelete(p.id)} className="text-xs text-muted hover:text-critical whitespace-nowrap">
+                    Remove
+                  </button>
+                </div>
               </div>
             ))}
           </div>

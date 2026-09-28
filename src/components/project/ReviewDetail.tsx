@@ -10,7 +10,7 @@ export default function ReviewDetail({ review }: { review: Review }) {
     return (
       <div className="bg-critical/10 border border-critical/30 rounded-xl p-4">
         <p className="text-sm text-critical font-medium">Review failed</p>
-        <p className="text-sm text-gray-400 mt-1">{review.errorMessage}</p>
+        <p className="text-sm text-muted mt-1">{review.errorMessage}</p>
       </div>
     );
   }
@@ -24,8 +24,8 @@ export default function ReviewDetail({ review }: { review: Review }) {
   return (
     <div className="space-y-4">
       <div className="bg-panel border border-border rounded-xl p-4">
-        <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-          <span className="uppercase tracking-wide bg-white/5 px-2 py-0.5 rounded-full">{review.mode}</span>
+        <div className="flex items-center gap-2 text-xs text-muted mb-2">
+          <span className="uppercase tracking-wide bg-fg/5 px-2 py-0.5 rounded-full">{review.mode}</span>
           <span>·</span>
           <span>{review.scope.replace('_', ' ')}</span>
           <span>·</span>
@@ -37,12 +37,12 @@ export default function ReviewDetail({ review }: { review: Review }) {
             </>
           )}
         </div>
-        <p className="text-sm text-gray-200">{review.summary}</p>
+        <p className="text-sm text-fg">{review.summary}</p>
         {Object.keys(counts).length > 0 && (
           <div className="flex gap-2 mt-3">
             {(['critical', 'high', 'medium', 'low'] as const).map(
               (sev) => counts[sev] && (
-                <span key={sev} className="text-xs text-gray-400">
+                <span key={sev} className="text-xs text-muted">
                   <SeverityBadge severity={sev} /> ×{counts[sev]}
                 </span>
               ),
@@ -52,26 +52,26 @@ export default function ReviewDetail({ review }: { review: Review }) {
       </div>
 
       {sortedIssues.length === 0 ? (
-        <p className="text-sm text-gray-500 py-6 text-center">No significant issues found for this review mode. 🎉</p>
+        <p className="text-sm text-muted py-6 text-center">No significant issues found for this review mode. 🎉</p>
       ) : (
         <div className="space-y-3">
           {sortedIssues.map((issue) => (
             <div key={issue.id} className="bg-panel border border-border rounded-xl p-4">
               <div className="flex items-start justify-between gap-3">
-                <h4 className="text-sm font-medium text-white">{issue.title}</h4>
+                <h4 className="text-sm font-medium text-fg">{issue.title}</h4>
                 <SeverityBadge severity={issue.severity} />
               </div>
               {(issue.filePath || issue.lineHint) && (
-                <p className="text-xs text-gray-500 font-mono mt-1">
+                <p className="text-xs text-muted font-mono mt-1">
                   {issue.filePath}
                   {issue.lineHint ? ` — ${issue.lineHint}` : ''}
                 </p>
               )}
-              <p className="text-sm text-gray-400 mt-2">{issue.description}</p>
+              <p className="text-sm text-muted mt-2">{issue.description}</p>
               {issue.recommendation && (
                 <div className="mt-2 text-sm bg-accent/5 border border-accent/20 rounded-lg px-3 py-2">
                   <span className="text-accent text-xs font-medium">Recommendation: </span>
-                  <span className="text-gray-300">{issue.recommendation}</span>
+                  <span className="text-fg">{issue.recommendation}</span>
                 </div>
               )}
             </div>
@@ -81,8 +81,8 @@ export default function ReviewDetail({ review }: { review: Review }) {
 
       {review.generalRecommendations.length > 0 && (
         <div className="bg-panel border border-border rounded-xl p-4">
-          <h4 className="text-sm font-medium text-white mb-2">General recommendations</h4>
-          <ul className="list-disc list-inside text-sm text-gray-400 space-y-1">
+          <h4 className="text-sm font-medium text-fg mb-2">General recommendations</h4>
+          <ul className="list-disc list-inside text-sm text-muted space-y-1">
             {review.generalRecommendations.map((r, i) => (
               <li key={i}>{r}</li>
             ))}

@@ -70,14 +70,14 @@ export default function ChatPanel({ projectId }: { projectId: string }) {
   }
 
   return (
-    <div className="grid md:grid-cols-[220px_1fr] gap-4 h-[560px]">
+    <div className="grid md:grid-cols-[220px_1fr] gap-3 md:gap-4 h-[70vh] max-h-[640px] md:h-[560px]">
       <div className="border border-border rounded-xl overflow-auto">
         <button
           onClick={() => {
             setActiveSessionId(null);
             setMessages([]);
           }}
-          className="w-full text-left text-sm px-3 py-2.5 border-b border-border text-accent hover:bg-white/5"
+          className="w-full text-left text-sm px-3 py-2.5 border-b border-border text-accent hover:bg-fg/5"
         >
           + New chat
         </button>
@@ -86,7 +86,7 @@ export default function ChatPanel({ projectId }: { projectId: string }) {
             key={s.id}
             onClick={() => loadMessages(s.id)}
             className={`w-full text-left text-sm px-3 py-2.5 border-b border-border truncate ${
-              s.id === activeSessionId ? 'bg-accent/10 text-white' : 'text-gray-400 hover:text-white'
+              s.id === activeSessionId ? 'bg-accent/10 text-fg' : 'text-muted hover:text-fg'
             }`}
           >
             {s.title}
@@ -97,7 +97,7 @@ export default function ChatPanel({ projectId }: { projectId: string }) {
       <div className="border border-border rounded-xl flex flex-col">
         <div className="flex-1 overflow-auto p-4 space-y-3">
           {messages.length === 0 && (
-            <p className="text-sm text-gray-600 text-center py-12">
+            <p className="text-sm text-muted-2 text-center py-12">
               Ask something about this codebase — e.g. &ldquo;How does authentication work?&rdquo;
             </p>
           )}
@@ -105,7 +105,7 @@ export default function ChatPanel({ projectId }: { projectId: string }) {
             <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div
                 className={`max-w-[80%] rounded-xl px-3 py-2 text-sm whitespace-pre-wrap ${
-                  m.role === 'user' ? 'bg-accent text-white' : 'bg-panel border border-border text-gray-200'
+                  m.role === 'user' ? 'bg-accent text-white' : 'bg-panel border border-border text-fg'
                 }`}
               >
                 {m.content}
@@ -117,7 +117,7 @@ export default function ChatPanel({ projectId }: { projectId: string }) {
           ))}
           {asking && (
             <div className="flex justify-start">
-              <div className="bg-panel border border-border rounded-xl px-3 py-2 text-sm text-gray-500 flex items-center gap-2">
+              <div className="bg-panel border border-border rounded-xl px-3 py-2 text-sm text-muted flex items-center gap-2">
                 <Spinner /> Thinking…
               </div>
             </div>

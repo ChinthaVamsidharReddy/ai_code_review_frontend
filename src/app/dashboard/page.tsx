@@ -64,11 +64,11 @@ export default function DashboardPage() {
   return (
     <ProtectedRoute>
       <TopNav />
-      <main className="max-w-6xl mx-auto px-6 py-8">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-xl font-semibold text-white">Projects</h1>
-            <p className="text-sm text-gray-500 mt-1">Upload code, request AI reviews, and chat with your codebase.</p>
+            <h1 className="text-xl font-semibold text-fg">Projects</h1>
+            <p className="text-sm text-muted mt-1">Upload code, request AI reviews, and chat with your codebase.</p>
           </div>
           <button
             onClick={() => setShowCreate((v) => !v)}
@@ -95,7 +95,7 @@ export default function DashboardPage() {
               className="w-full bg-surface border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
             />
             <div className="flex gap-2 justify-end">
-              <button type="button" onClick={() => setShowCreate(false)} className="text-sm text-gray-400 px-3 py-2">
+              <button type="button" onClick={() => setShowCreate(false)} className="text-sm text-muted px-3 py-2">
                 Cancel
               </button>
               <button
@@ -121,7 +121,7 @@ export default function DashboardPage() {
         />
 
         {projects === null ? (
-          <div className="flex justify-center py-16 text-gray-500">
+          <div className="flex justify-center py-16 text-muted">
             <Spinner className="w-6 h-6" />
           </div>
         ) : projects.length === 0 ? (
@@ -131,13 +131,13 @@ export default function DashboardPage() {
             {projects.map((p) => (
               <div key={p.id} className="bg-panel border border-border rounded-xl p-4 hover:border-accent/50 transition-colors group">
                 <Link href={`/projects/${p.id}`}>
-                  <h3 className="font-medium text-white truncate">{p.name}</h3>
-                  <p className="text-sm text-gray-500 mt-1 line-clamp-2 h-10">{p.description || 'No description'}</p>
-                  <p className="text-xs text-gray-600 mt-3">Created {new Date(p.createdAt).toLocaleDateString()}</p>
+                  <h3 className="font-medium text-fg truncate">{p.name}</h3>
+                  <p className="text-sm text-muted mt-1 line-clamp-2 h-10">{p.description || 'No description'}</p>
+                  <p className="text-xs text-muted-2 mt-3">Created {new Date(p.createdAt).toLocaleDateString()}</p>
                 </Link>
                 <button
                   onClick={() => onDelete(p.id)}
-                  className="mt-3 text-xs text-gray-600 hover:text-critical transition-colors opacity-0 group-hover:opacity-100"
+                  className="mt-3 text-xs text-muted-2 hover:text-critical transition-colors opacity-0 group-hover:opacity-100"
                 >
                   Delete project
                 </button>

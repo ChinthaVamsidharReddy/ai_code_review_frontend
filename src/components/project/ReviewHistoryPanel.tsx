@@ -14,6 +14,7 @@ export default function ReviewHistoryPanel({ projectId }: { projectId: string })
   const [reviews, setReviews] = useState<Review[] | null>(null);
   const [search, setSearch] = useState('');
   const [modeFilter, setModeFilter] = useState('');
+  const [severityFilter, setSeverityFilter] = useState('');
   const [selected, setSelected] = useState<Review | null>(null);
 
   async function load() {
@@ -21,6 +22,7 @@ export default function ReviewHistoryPanel({ projectId }: { projectId: string })
       const params = new URLSearchParams();
       if (search) params.set('search', search);
       if (modeFilter) params.set('mode', modeFilter);
+      if (severityFilter) params.set('severity', severityFilter);
       const res = await api.get<Paginated<Review>>(`/projects/${projectId}/reviews?${params.toString()}`);
       setReviews(res.items);
     } catch (err) {
@@ -31,12 +33,12 @@ export default function ReviewHistoryPanel({ projectId }: { projectId: string })
   useEffect(() => {
     load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search, modeFilter]);
+  }, [search, modeFilter, severityFilter]);
 
   if (selected) {
     return (
       <div>
-        <button onClick={() => setSelected(null)} className="text-sm text-gray-400 hover:text-white mb-4">
+        <button onClick={() => setSelected(null)} className="text-sm text-muted hover:text-fg mb-4">
           ← Back to history
         </button>
         <ReviewDetail review={selected} />
@@ -63,10 +65,21 @@ export default function ReviewHistoryPanel({ projectId }: { projectId: string })
           <option value="performance">Performance</option>
           <option value="quality">Quality</option>
         </select>
+        <select
+          value={severityFilter}
+          onChange={(e) => setSeverityFilter(e.target.value)}
+          className="bg-panel border border-border rounded-lg px-3 py-2 text-sm"
+        >
+          <option value="">All severities</option>
+          <option value="critical">Critical</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
       </div>
 
       {reviews === null ? (
-        <div className="flex justify-center py-16 text-gray-500">
+        <div className="flex justify-center py-16 text-muted">
           <Spinner className="w-5 h-5" />
         </div>
       ) : reviews.length === 0 ? (
@@ -85,12 +98,12 @@ export default function ReviewHistoryPanel({ projectId }: { projectId: string })
                 className="w-full text-left bg-panel border border-border hover:border-accent/50 rounded-xl p-4 transition-colors"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs uppercase tracking-wide text-gray-500">
+                  <span className="text-xs uppercase tracking-wide text-muted">
                     {r.mode} · {r.scope.replace('_', ' ')}
                   </span>
-                  <span className="text-xs text-gray-600">{new Date(r.createdAt).toLocaleString()}</span>
+                  <span className="text-xs text-muted-2">{new Date(r.createdAt).toLocaleString()}</span>
                 </div>
-                <p className="text-sm text-gray-300 mt-1.5 line-clamp-2">
+                <p className="text-sm text-fg mt-1.5 line-clamp-2">
                   {r.status === 'failed' ? `⚠️ ${r.errorMessage}` : r.summary}
                 </p>
                 <div className="flex gap-1.5 mt-2">

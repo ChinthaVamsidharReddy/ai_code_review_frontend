@@ -54,14 +54,14 @@ export default function ReviewPanel({ projectId, tree }: { projectId: string; tr
     <div className="grid md:grid-cols-[280px_1fr] gap-6">
       <div className="space-y-4">
         <div>
-          <label className="block text-xs text-gray-500 mb-1.5 uppercase tracking-wide">Review mode</label>
+          <label className="block text-xs text-muted mb-1.5 uppercase tracking-wide">Review mode</label>
           <div className="flex flex-col gap-1">
             {(['security', 'performance', 'quality'] as const).map((m) => (
               <button
                 key={m}
                 onClick={() => setMode(m)}
                 className={`text-left text-sm px-3 py-2 rounded-lg border ${
-                  mode === m ? 'bg-accent/15 border-accent text-white' : 'border-border text-gray-400 hover:text-white'
+                  mode === m ? 'bg-accent/15 border-accent text-fg' : 'border-border text-muted hover:text-fg'
                 }`}
               >
                 {m === 'security' ? 'Security review' : m === 'performance' ? 'Performance review' : 'Code quality review'}
@@ -71,7 +71,7 @@ export default function ReviewPanel({ projectId, tree }: { projectId: string; tr
         </div>
 
         <div>
-          <label className="block text-xs text-gray-500 mb-1.5 uppercase tracking-wide">Scope</label>
+          <label className="block text-xs text-muted mb-1.5 uppercase tracking-wide">Scope</label>
           <select
             value={scope}
             onChange={(e) => setScope(e.target.value as ReviewScope)}
@@ -85,7 +85,7 @@ export default function ReviewPanel({ projectId, tree }: { projectId: string; tr
 
         {scope !== 'project' && (
           <div>
-            <label className="block text-xs text-gray-500 mb-1.5 uppercase tracking-wide">
+            <label className="block text-xs text-muted mb-1.5 uppercase tracking-wide">
               Select {scope === 'single_file' ? 'a file' : 'files'} ({selectedIds.size} selected)
             </label>
             <div className="border border-border rounded-lg max-h-64 overflow-auto py-1">
@@ -116,13 +116,13 @@ export default function ReviewPanel({ projectId, tree }: { projectId: string; tr
 
       <div>
         {running ? (
-          <div className="flex items-center justify-center h-64 text-gray-500 text-sm gap-2">
+          <div className="flex items-center justify-center h-64 text-muted text-sm gap-2">
             <Spinner /> Reviewing code — this can take a moment…
           </div>
         ) : result ? (
           <ReviewDetail review={result} />
         ) : (
-          <div className="flex items-center justify-center h-64 text-gray-600 text-sm text-center px-8">
+          <div className="flex items-center justify-center h-64 text-muted-2 text-sm text-center px-8">
             Choose a mode and scope, then run a review. Results appear here.
           </div>
         )}

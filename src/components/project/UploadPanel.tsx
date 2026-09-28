@@ -45,7 +45,7 @@ export default function UploadPanel({ projectId, onUploaded }: { projectId: stri
       }}
       onClick={() => inputRef.current?.click()}
       className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-colors ${
-        dragOver ? 'border-accent bg-accent/5' : 'border-border hover:border-gray-600'
+        dragOver ? 'border-accent bg-accent/5' : 'border-border hover:border-muted-2'
       }`}
     >
       <input
@@ -60,13 +60,13 @@ export default function UploadPanel({ projectId, onUploaded }: { projectId: stri
         }}
       />
       {uploading ? (
-        <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
+        <div className="flex items-center justify-center gap-2 text-sm text-muted">
           <Spinner /> Extracting and indexing…
         </div>
       ) : (
         <>
-          <p className="text-sm text-gray-300">Drop a .zip archive here, or click to browse</p>
-          <p className="text-xs text-gray-600 mt-1">Re-uploading replaces this project's current files</p>
+          <p className="text-sm text-fg">Drop a .zip archive here, or click to browse</p>
+          <p className="text-xs text-muted-2 mt-1">Re-uploading replaces this project's current files</p>
         </>
       )}
     </div>

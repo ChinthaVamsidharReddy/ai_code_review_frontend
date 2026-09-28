@@ -15,7 +15,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
 
   if (loading || !user) {
     return (
-      <div className="flex h-screen items-center justify-center text-gray-500">
+      <div className="flex h-screen items-center justify-center text-muted">
         <Spinner className="w-6 h-6" />
       </div>
     );

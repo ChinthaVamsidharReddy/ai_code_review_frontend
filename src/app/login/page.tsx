@@ -36,13 +36,13 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-semibold text-white">Sign in</h1>
-          <p className="text-gray-500 text-sm mt-1">AI Code Review Assistant</p>
+          <h1 className="text-2xl font-semibold text-fg">Sign in</h1>
+          <p className="text-muted text-sm mt-1">AI Code Review Assistant</p>
         </div>
         <form onSubmit={onSubmit} className="bg-panel border border-border rounded-xl p-6 space-y-4">
           {error && <p className="text-sm text-critical bg-critical/10 border border-critical/30 rounded-lg px-3 py-2">{error}</p>}
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Email</label>
+            <label className="block text-sm text-muted mb-1">Email</label>
             <input
               type="email"
               required
@@ -53,7 +53,7 @@ export default function LoginPage() {
             />
           </div>
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Password</label>
+            <label className="block text-sm text-muted mb-1">Password</label>
             <input
               type="password"
               required
@@ -72,7 +72,7 @@ export default function LoginPage() {
             Sign in
           </button>
         </form>
-        <p className="text-center text-sm text-gray-500 mt-4">
+        <p className="text-center text-sm text-muted mt-4">
           No account?{' '}
           <Link href="/register" className="text-accent hover:underline">
             Create one

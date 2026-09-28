@@ -32,10 +32,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           <div
             key={t.id}
             className={clsx(
-              'px-4 py-3 rounded-lg shadow-lg border text-sm animate-[fadeIn_0.15s_ease-out]',
-              t.variant === 'success' && 'bg-emerald-950 border-emerald-700 text-emerald-200',
-              t.variant === 'error' && 'bg-red-950 border-red-700 text-red-200',
-              t.variant === 'info' && 'bg-panel border-border text-gray-200',
+              'px-4 py-3 rounded-lg shadow-lg border-l-4 bg-panel border border-border text-sm text-fg animate-[fadeIn_0.15s_ease-out]',
+              t.variant === 'success' && 'border-l-emerald-500',
+              t.variant === 'error' && 'border-l-critical',
+              t.variant === 'info' && 'border-l-accent',
             )}
           >
             {t.message}

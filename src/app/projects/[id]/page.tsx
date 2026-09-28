@@ -61,18 +61,18 @@ export default function ProjectDetailPage() {
   return (
     <ProtectedRoute>
       <TopNav crumb={project?.name} />
-      <main className="max-w-6xl mx-auto px-6 py-6">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
         {loading ? (
-          <div className="flex justify-center py-24 text-gray-500">
+          <div className="flex justify-center py-24 text-muted">
             <Spinner className="w-6 h-6" />
           </div>
         ) : !project ? (
-          <p className="text-gray-500 text-sm">Project not found.</p>
+          <p className="text-muted text-sm">Project not found.</p>
         ) : (
           <>
             <div className="mb-6">
-              <h1 className="text-xl font-semibold text-white">{project.name}</h1>
-              {project.description && <p className="text-sm text-gray-500 mt-1">{project.description}</p>}
+              <h1 className="text-xl font-semibold text-fg">{project.name}</h1>
+              {project.description && <p className="text-sm text-muted mt-1">{project.description}</p>}
             </div>
 
             <div className="flex gap-1 border-b border-border mb-6 overflow-x-auto">
@@ -81,7 +81,7 @@ export default function ProjectDetailPage() {
                   key={t.id}
                   onClick={() => setTab(t.id)}
                   className={`px-4 py-2.5 text-sm whitespace-nowrap border-b-2 -mb-px transition-colors ${
-                    tab === t.id ? 'border-accent text-white' : 'border-transparent text-gray-500 hover:text-gray-300'
+                    tab === t.id ? 'border-accent text-fg' : 'border-transparent text-muted hover:text-fg'
                   }`}
                 >
                   {t.label}
@@ -95,10 +95,10 @@ export default function ProjectDetailPage() {
                   <UploadPanel projectId={projectId} onUploaded={loadAll} />
                 </div>
                 {tree.length === 0 ? (
-                  <p className="text-sm text-gray-600 text-center py-16">No files uploaded yet. Drop a ZIP archive above to get started.</p>
+                  <p className="text-sm text-muted-2 text-center py-16">No files uploaded yet. Drop a ZIP archive above to get started.</p>
                 ) : (
-                  <div className="grid md:grid-cols-[280px_1fr] gap-4 h-[560px] border border-border rounded-xl overflow-hidden">
-                    <div className="overflow-auto border-r border-border py-2">
+                  <div className="grid md:grid-cols-[280px_1fr] gap-0 md:gap-4 h-[70vh] max-h-[640px] md:h-[560px] border border-border rounded-xl overflow-hidden">
+                    <div className="overflow-auto border-b md:border-b-0 md:border-r border-border py-2 max-h-[40vh] md:max-h-none">
                       <FileTree
                         nodes={tree}
                         selectedFileId={selectedFileId}
@@ -118,7 +118,7 @@ export default function ProjectDetailPage() {
 
             {tab === 'review' &&
               (tree.length === 0 ? (
-                <p className="text-sm text-gray-600 text-center py-16">Upload code first to request a review.</p>
+                <p className="text-sm text-muted-2 text-center py-16">Upload code first to request a review.</p>
               ) : (
                 <ReviewPanel projectId={projectId} tree={tree} />
               ))}
@@ -127,14 +127,14 @@ export default function ProjectDetailPage() {
 
             {tab === 'chat' &&
               (tree.length === 0 ? (
-                <p className="text-sm text-gray-600 text-center py-16">Upload code first to chat with it.</p>
+                <p className="text-sm text-muted-2 text-center py-16">Upload code first to chat with it.</p>
               ) : (
                 <ChatPanel projectId={projectId} />
               ))}
 
             {tab === 'docs' &&
               (tree.length === 0 ? (
-                <p className="text-sm text-gray-600 text-center py-16">Upload code first to generate documentation.</p>
+                <p className="text-sm text-muted-2 text-center py-16">Upload code first to generate documentation.</p>
               ) : (
                 <DocsPanel projectId={projectId} />
               ))}

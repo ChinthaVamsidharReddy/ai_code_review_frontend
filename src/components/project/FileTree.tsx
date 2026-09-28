@@ -41,7 +41,7 @@ function TreeItem({ node, selectedFileId, onSelectFile, multiSelect, selectedIds
       <div>
         <button
           onClick={() => setOpen((v) => !v)}
-          className="w-full flex items-center gap-1.5 px-2 py-1 text-sm text-gray-400 hover:text-white rounded"
+          className="w-full flex items-center gap-1.5 px-2 py-1 text-sm text-muted hover:text-fg rounded"
           style={{ paddingLeft: 8 + depth * 14 }}
         >
           <span className="text-xs w-3">{open ? '▾' : '▸'}</span>
@@ -69,7 +69,7 @@ function TreeItem({ node, selectedFileId, onSelectFile, multiSelect, selectedIds
     <div
       className={clsx(
         'flex items-center gap-1.5 px-2 py-1 text-sm rounded cursor-pointer group',
-        isSelected ? 'bg-accent/15 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5',
+        isSelected ? 'bg-accent/15 text-fg' : 'text-muted hover:text-fg hover:bg-fg/5',
       )}
       style={{ paddingLeft: 8 + depth * 14 }}
       onClick={() => node.fileId && onSelectFile(node.fileId, node.path)}
@@ -87,7 +87,7 @@ function TreeItem({ node, selectedFileId, onSelectFile, multiSelect, selectedIds
         />
       )}
       <span className="truncate flex-1">{node.name}</span>
-      {node.isBinary && <span className="text-[10px] text-gray-600">bin</span>}
+      {node.isBinary && <span className="text-[10px] text-muted-2">bin</span>}
     </div>
   );
 }
